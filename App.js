@@ -1,11 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { setStatusBarNetworkActivityIndicatorVisible, StatusBar } from 'expo-status-bar';
+import React, {useState} from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Login from './Login';
+import MainScreen from './MainScreen';
+
 
 export default function App() {
+  const [user, setUser] = useState(null);
+
+  const logOut = () => {
+    console.log('logmeout');
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      {user===null 
+      ? (<Login setUser={setUser} />) 
+      : (<MainScreen user={user} logOut={logOut} />)
+      }
       <StatusBar style="auto" />
     </View>
   );
