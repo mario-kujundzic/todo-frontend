@@ -7,6 +7,11 @@ export default function MainScreen({user, logOut}) {
     return (
         <View>
             <Text>Welcome to the app, {user}!</Text>
+            <TouchableOpacity onPress={logOut}>
+                <Text>
+                    Log me out!
+                </Text>
+            </TouchableOpacity>
         </View>
     )
 }
