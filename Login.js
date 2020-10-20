@@ -1,48 +1,33 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
-import axios from 'axios';
+import axios from './services/AxiosService';
 import imageLogo from './assets/logo.png';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default function Login({setUser}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
 
-    const loginAsync = () => {
-      axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-      const postData = {email: email, password: password};
-      axios('http://127.0.0.1:8000/api/auth/login',
-        {
-            method: 'POST',
-            headers: {
-                'Accept': "application/json",
-                'Content-Type': "application/json"
-            },
-            data: postData
-        })
-        .then((msg) => {
-            console.log('Successfully logged in!');
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + msg.data.access_token;
+    const loginAsync = async () => {
+        try {
+            let msg = await axios.client('auth/login', {method: 'POST', data: {email, password}})
+            const header = 'Bearer ' + msg.data.access_token;
+            axios.attachHeaders({'Authorization': header});
+            await AsyncStorage.setItem('token', header);
             setUser(msg.data.user);
-      }).catch(err => {
-          console.log(err.response.status);
-            if (err.response.status === 422) {
-                const newErrors = err.response.data.errors;
-                console.log(newErrors);
-                const errors = {};
-                if (newErrors.email) {
-                    errors.email = newErrors.email[0];
-                };
-                if (newErrors.password){
-                    errors.password = newErrors.password[0];
-                };
-                setErrors(errors);
+            let keys = await AsyncStorage.getAllKeys();
+            console.log(keys);
+        }
+        catch (err) {
+            if (err.errorMessages) {
+                setErrors(err.errorMessages);
             }
-            else if (err.response.status === 401) {
-                const errors = {password: "Invalid password!"};
-                setErrors(errors);
+            else {
+                console.log(err);
+                alert('Error!');
             }
-      });
+        }
     }
 
     return (

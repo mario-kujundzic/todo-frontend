@@ -1,16 +1,17 @@
-import { setStatusBarNetworkActivityIndicatorVisible, StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet,  View } from 'react-native';
+import { AppLoading } from 'expo';
 import Login from './Login';
 import MainScreen from './MainScreen';
-import axios from 'axios';
+import axios from './services/AxiosService';
+
 
 export default function App() {
   const [user, setUser] = useState(null);
 
   const logOut = () => {
-    console.log('logmeout');
-    axios.defaults.headers.common['Authorization'] = '';
+    axios.removeHeaders(['Authorization']);
     setUser(null);
   }
 
