@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
-import axios from './services/AxiosService';
-import imageLogo from './assets/logo.png';
+import axios from '../../services/AxiosService';
+import imageLogo from '../../assets/logo.png';
 import AsyncStorage from '@react-native-community/async-storage';
 
-export default function Login({setUser}) {
+export default function Login({navigation}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
@@ -15,16 +15,14 @@ export default function Login({setUser}) {
             const header = 'Bearer ' + msg.data.access_token;
             axios.attachHeaders({'Authorization': header});
             await AsyncStorage.setItem('token', header);
-            setUser(msg.data.user);
-            let keys = await AsyncStorage.getAllKeys();
-            console.log(keys);
+            await AsyncStorage.setItem('user', msg.data.user);
+            navigation.navigate('MainStack', {user: msg.data.user});
         }
         catch (err) {
             if (err.errorMessages) {
                 setErrors(err.errorMessages);
             }
             else {
-                console.log(err);
                 alert('Error!');
             }
         }
@@ -69,7 +67,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        //justifyContent: "space-between"
+        backgroundColor: "white"
     },
     logo: {
         flex: 1,

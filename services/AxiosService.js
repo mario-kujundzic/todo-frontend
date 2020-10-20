@@ -9,12 +9,8 @@ class AxiosService {
             headers: {'X-Requested-With': 'XMLHttpRequest',
                         'Accept': "application/json"},
         };
-        AsyncStorage.getItem('token').then(token => {
-            options.headers['Authorization'] = token;
-        }).finally(() => {
-            this.client = axios.create(options);
-            this.client.interceptors.response.use(this.handleSuccess, this.handleError);
-        })
+        this.client = axios.create(options);
+        this.client.interceptors.response.use(this.handleSuccess, this.handleError);
     }
 
     attachHeaders(headers) {
@@ -32,8 +28,10 @@ class AxiosService {
     handleError(error) {
         try {
             const status = error.response.status;
-            if (status == 401)
+            if (status == 401) {
                 AsyncStorage.removeItem('token');
+                AsyncStorage.removeItem('user');
+            }
             let errors = error.response.data.errors;
             if (errors) {
                 var myErrors = {};
@@ -42,11 +40,9 @@ class AxiosService {
                 }
                 error.errorMessages = myErrors;
             }
-            console.log(error.toJSON());
             return Promise.reject(error);
         }
         catch(error) {
-            console.log(error);
             return Promise.reject(error);
         }
     }
