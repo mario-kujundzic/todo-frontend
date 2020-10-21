@@ -1,22 +1,26 @@
-import { setStatusBarNetworkActivityIndicatorVisible, StatusBar } from 'expo-status-bar';
-import React, {useState, useRef, useEffect} from 'react';
+import { StatusBar } from 'expo-status-bar';
+import React, {useState, useRef } from 'react';
 import { AppLoading } from 'expo';
 import axios from './services/AxiosService';
 import AppNavigator from './navigation/AppNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Provider, useDispatch } from 'react-redux';
+import { set } from './state/userSlice';
+import store from './state/store';
 
-export default function App() {
+const ReduxWrapper = () => {
+    return (
+        <Provider store={store}>
+            <App />
+        </Provider>
+    )    
+}
+
+const App = () => {
     const [ready, setReady] = useState(false);
-    const [user, setUser] = useState(null);
+    const dispatch = useDispatch();
     const navRef = useRef(null);
-
-    useEffect(() => {
-        if (user) {
-            console.log('redirecting..');
-            navRef.current?.navigate('MainStack', {user: user});
-        }
-    }, [ready])
 
     const startLoadingAsync = async () => {
         console.log('started');
@@ -25,7 +29,7 @@ export default function App() {
             axios.attachHeaders({'Authorization': token});
         let user = await AsyncStorage.getItem('user');
         if (user)
-            setUser(user);
+            dispatch(set(user));
         return Promise.resolve();
     };
 
@@ -50,9 +54,10 @@ export default function App() {
     };
     return (
         <NavigationContainer ref={navRef} >
-            <AppNavigator />
+            <AppNavigator/>
             <StatusBar style="auto" />
         </NavigationContainer>
     )
 };
 
+export default ReduxWrapper;

@@ -1,14 +1,17 @@
-import React, {useContext, useState} from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import UserContext from '../../context/UserContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { reset, selectUser } from '../../state/userSlice';
 
-export default function MainScreen({navigation}) {
-    user = useContext(UserContext);
+export default function MainScreen() {
+    const user = useSelector(selectUser);
+    const dispatch = useDispatch();
+
     const logOutAsync = async () => {
         await AsyncStorage.removeItem('token');
         await AsyncStorage.removeItem('user');
-        navigation.navigate('AuthStack');
+        dispatch(reset());
     };
 
     return (

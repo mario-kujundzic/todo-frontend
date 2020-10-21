@@ -3,11 +3,15 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'reac
 import axios from '../../services/AxiosService';
 import imageLogo from '../../assets/logo.png';
 import AsyncStorage from '@react-native-community/async-storage';
+import { useDispatch } from 'react-redux';
+import { set } from '../../state/userSlice';
 
 export default function Login({navigation}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
+
+    const dispatch = useDispatch();
 
     const loginAsync = async () => {
         try {
@@ -16,7 +20,7 @@ export default function Login({navigation}) {
             axios.attachHeaders({'Authorization': header});
             await AsyncStorage.setItem('token', header);
             await AsyncStorage.setItem('user', msg.data.user);
-            navigation.navigate('MainStack', {user: msg.data.user});
+            dispatch(set(msg.data.user));
         }
         catch (err) {
             if (err.errorMessages) {

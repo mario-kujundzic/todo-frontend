@@ -1,4 +1,3 @@
-import react from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 
