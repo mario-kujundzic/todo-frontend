@@ -1,23 +1,16 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import { useSelector, useDispatch } from 'react-redux';
-import { reset, selectUser } from '../../state/userSlice';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../state/userSlice';
+import AuthService from '../../services/AuthService';
 
 export default function MainScreen() {
     const user = useSelector(selectUser);
-    const dispatch = useDispatch();
-
-    const logOutAsync = async () => {
-        await AsyncStorage.removeItem('token');
-        await AsyncStorage.removeItem('user');
-        dispatch(reset());
-    };
 
     return (
         <View>
             <Text>Welcome to the app, {user}!</Text>
-            <TouchableOpacity onPress={logOutAsync}>
+            <TouchableOpacity onPress={AuthService.logout}>
                 <Text>
                     Log me out!
                 </Text>

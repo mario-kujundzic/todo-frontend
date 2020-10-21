@@ -1,36 +1,18 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
-import axios from '../../services/AxiosService';
 import imageLogo from '../../assets/logo.png';
-import AsyncStorage from '@react-native-community/async-storage';
-import { useDispatch } from 'react-redux';
-import { set } from '../../state/userSlice';
+import AuthService from '../../services/AuthService';
 
-export default function Login({navigation}) {
+export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
 
-    const dispatch = useDispatch();
-
     const loginAsync = async () => {
-        try {
-            let msg = await axios.client('auth/login', {method: 'POST', data: {email, password}})
-            const header = 'Bearer ' + msg.data.access_token;
-            axios.attachHeaders({'Authorization': header});
-            await AsyncStorage.setItem('token', header);
-            await AsyncStorage.setItem('user', msg.data.user);
-            dispatch(set(msg.data.user));
-        }
-        catch (err) {
-            if (err.errorMessages) {
-                setErrors(err.errorMessages);
-            }
-            else {
-                alert('Error!');
-            }
-        }
-    }
+        let errors = await AuthService.login(email, password);
+        if (errors)
+            setErrors(errors);
+    };
 
     return (
         <View style={styles.container}>
@@ -62,6 +44,9 @@ export default function Login({navigation}) {
                     >
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
+                <Text style={styles.error}>
+                    {errors.unknown || ""}
+                </Text>
             </View>
         </View>
     )

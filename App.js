@@ -23,7 +23,6 @@ const App = () => {
     const navRef = useRef(null);
 
     const startLoadingAsync = async () => {
-        console.log('started');
         let token = await AsyncStorage.getItem('token');
         if (token)
             axios.attachHeaders({'Authorization': token});
