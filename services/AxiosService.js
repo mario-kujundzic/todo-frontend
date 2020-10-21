@@ -47,6 +47,7 @@ class AxiosService {
             return Promise.reject(error);
         }
         catch(error) {
+            console.log(error);
             error.errorMessages = {'unknown': "An unknown error has occured!"};
             return Promise.reject(error);
         }

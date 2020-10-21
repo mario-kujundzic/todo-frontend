@@ -8,10 +8,52 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
 
+    const validateEmail = (newEmail) => {
+        let validated = true;
+        let newError = '';
+        if (newEmail === '') {
+            validated = false;
+            newError = "Email is required!";
+        } else if (!/\S+@\S+\.\S+/.test(newEmail)) {
+            validated = false;
+            newError = "Email must be valid!";
+        }
+        setEmail(newEmail);
+        if (validated) {
+            const {email, unknown, ...newErrors} = {...errors}
+            setErrors(newErrors);
+        } else {
+            const newErrors = {...errors, 'email': newError};
+            setErrors(newErrors);
+        }
+    }
+
+    const validatePassword = (newPassword) => {
+        let validated = true;
+        let newError = '';
+        if (newPassword === '') {
+            validated = false;
+            newError = "Password is required!";
+        } else if (newPassword.length < 6) {
+            validated = false;
+            newError = "Password must be at least 6 characters!";
+        }
+        setPassword(newPassword);
+        if (validated) {
+            const {password, unknown, ...newErrors} = {...errors}
+            setErrors(newErrors);
+        } else {
+            const newErrors = {...errors, 'password': newError};
+            setErrors(newErrors);
+        }
+    }
+
     const loginAsync = async () => {
-        let errors = await AuthService.login(email, password);
-        if (errors)
-            setErrors(errors);
+        if (!Object.keys(errors).length) {
+            let authErrors = await AuthService.login(email, password);
+            if (authErrors)
+                setErrors(authErrors);
+        }
     };
 
     return (
@@ -20,7 +62,7 @@ export default function Login() {
             <View style={styles.form}>
                 <TextInput 
                     style={styles.textInput}
-                    onChangeText={text => setEmail(text)}
+                    onChangeText={text => validateEmail(text)}
                     value={email}
                     placeholder="Email"
                     keyboardType="email-address"
@@ -30,7 +72,7 @@ export default function Login() {
                 </Text>
                 <TextInput 
                     style={styles.textInput}
-                    onChangeText={text => setPassword(text)}
+                    onChangeText={text => validatePassword(text)}
                     value={password}
                     placeholder="Password"
                     secureTextEntry
@@ -40,7 +82,10 @@ export default function Login() {
                 </Text>
                 <TouchableOpacity 
                     onPress={loginAsync}
-                    style={styles.button}
+                    style={email === "" || password === "" 
+                        ? styles.buttonDisabled
+                        : styles.button}
+                    disabled={email === "" || password === "" }
                     >
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
@@ -80,6 +125,17 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#3CB043",
+        marginBottom: 12,
+        paddingVertical: 12,
+        borderRadius: 4,
+        borderWidth: StyleSheet.hairlineWidth,
+        borderColor: "rgba(255,255,255,0.7)"
+    },
+    buttonDisabled: {
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#CDCDCD",
         marginBottom: 12,
         paddingVertical: 12,
         borderRadius: 4,
