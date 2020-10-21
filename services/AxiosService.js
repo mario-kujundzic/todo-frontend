@@ -27,24 +27,27 @@ class AxiosService {
     handleError(error) {
         try {
             const status = error.response.status;
+            // add check for status code 403 and try re-authentication...
             if (status == 401) {
                 AsyncStorage.removeItem('token');
                 AsyncStorage.removeItem('user');
-            }
-            let errors = error.response.data.errors;
-            if (errors) {
-                var myErrors = {};
-                for (const key in errors) {
-                    myErrors[key] = errors[key][0];
+                error.errorMessages = {"password": "Invalid password!"};
+            } else {
+                let errors = error.response.data.errors;
+                if (errors) {
+                    var myErrors = {};
+                    for (const key in errors) {
+                        myErrors[key] = errors[key][0];
+                    }
+                    error.errorMessages = myErrors;
                 }
-                error.errorMessages = myErrors;
+                else
+                    error.errorMessages = {'unknown': "An unknown error has occured!"};
             }
-            else
-                error.errorMessages.unknown = "An unknown error has occured!";
             return Promise.reject(error);
         }
         catch(error) {
-            error.errorMessages.unknown = "An unknown error has occured!";
+            error.errorMessages = {'unknown': "An unknown error has occured!"};
             return Promise.reject(error);
         }
     }
