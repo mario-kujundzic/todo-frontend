@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
 import imageLogo from '../../assets/logo.png';
 import AuthService from '../../services/AuthService';
+import StyledButton from '../../components/StyledButton';
+import StyledErrorText from '../../components/StyledErrorText';
+import StyledTextField from '../../components/StyledTextField';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -60,38 +63,24 @@ export default function Login() {
         <View style={styles.container}>
             <Image source={imageLogo} style={styles.header} />
             <View style={styles.form}>
-                <TextInput 
-                    style={styles.textInput}
-                    onChangeText={text => validateEmail(text)}
-                    value={email}
+                <StyledTextField 
+                    text={email}
+                    onChangeText={validateEmail}
                     placeholder="Email"
+                    errorText={errors.email}
                     keyboardType="email-address"
                     />
-                <Text style={styles.error}>
-                    {errors.email || ""}
-                </Text>
-                <TextInput 
-                    style={styles.textInput}
-                    onChangeText={text => validatePassword(text)}
-                    value={password}
+                <StyledTextField 
+                    text={password}
+                    setText={validatePassword}
                     placeholder="Password"
+                    errorText={errors.password}
                     secureTextEntry
                     />
-                <Text style={styles.error}>
-                    {errors.password || ""}
-                </Text>
-                <TouchableOpacity 
+                <StyledButton 
                     onPress={loginAsync}
-                    style={email === "" || password === "" 
-                        ? styles.buttonDisabled
-                        : styles.button}
-                    disabled={email === "" || password === "" }
-                    >
-                    <Text style={styles.buttonText}>Login</Text>
-                </TouchableOpacity>
-                <Text style={styles.error}>
-                    {errors.unknown || ""}
-                </Text>
+                    disabled={email === "" || password === ""} />
+                <StyledErrorText text={errors.unknown} />
             </View>
         </View>
     )
@@ -113,42 +102,5 @@ const styles = StyleSheet.create({
         flex: 10,
         justifyContent: "center",
         width: 300
-    },
-    textInput: {
-        height: 40,
-        borderColor: "silver",
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        marginBottom: 20
-    },
-    button: {
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#3CB043",
-        marginBottom: 12,
-        paddingVertical: 12,
-        borderRadius: 4,
-        borderWidth: StyleSheet.hairlineWidth,
-        borderColor: "rgba(255,255,255,0.7)"
-    },
-    buttonDisabled: {
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#CDCDCD",
-        marginBottom: 12,
-        paddingVertical: 12,
-        borderRadius: 4,
-        borderWidth: StyleSheet.hairlineWidth,
-        borderColor: "rgba(255,255,255,0.7)"
-    },
-    buttonText: {
-        color: "white",
-        textAlign: "center",
-        height: 20
-    },
-    error: {
-        height: 20,
-        color: "red"
     }
 });

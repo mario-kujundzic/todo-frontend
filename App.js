@@ -33,7 +33,6 @@ const App = () => {
     };
 
     const handleLoadError = (err) => {
-        console.log('load errored');
         alert('Error in loading');
     };
 
