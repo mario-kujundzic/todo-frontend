@@ -54,7 +54,7 @@ export default function Login() {
 
     return (
         <View style={styles.container}>
-            <Image source={imageLogo} style={styles.header} />
+            <Image source={imageLogo} style={styles.logo} />
             <View style={styles.form}>
                 <StyledTextField 
                     text={email}
@@ -72,7 +72,7 @@ export default function Login() {
                     />
                 <StyledButton 
                     onPress={loginAsync}
-                    disabled={email === "" || password === ""} 
+                    disabled={!email || !password} 
                     text='Login'/>
                 <StyledErrorText text={otherError} />
             </View>
@@ -83,18 +83,18 @@ export default function Login() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
-        backgroundColor: "white"
+        alignItems: "stretch",
+        backgroundColor: "white",
+        padding: 30
     },
     logo: {
-        flex: 1,
         width: "100%",
         resizeMode: 'contain',
         alignSelf: 'center'
     },
     form: {
-        flex: 10,
+        flex: 5,
         justifyContent: "center",
-        width: 300
+        alignItems: 'stretch',
     }
 });

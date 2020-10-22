@@ -18,9 +18,6 @@ export default function StyledButton({onPress, disabled = false, text}) {
 
 const styles = StyleSheet.create({
     button: {
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "center",
         backgroundColor: "#3CB043",
         marginBottom: 12,
         paddingVertical: 12,
@@ -29,9 +26,6 @@ const styles = StyleSheet.create({
         borderColor: "rgba(255,255,255,0.7)"
     },
     buttonDisabled: {
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "center",
         backgroundColor: "#CDCDCD",
         marginBottom: 12,
         paddingVertical: 12,
