@@ -8,7 +8,8 @@ const emailIsValid = (email) => {
 
 const getEmailErrors = (email) => {
     let error = null;
-    if (email === '') {
+    email = email.trim();
+    if (!email) {
         error = "Email is required!";
     } else if (!emailIsValid(email)) {
         error = "Email must be valid!";
@@ -18,7 +19,8 @@ const getEmailErrors = (email) => {
 
 const getPasswordErrors = (password) => {
     let error = null;
-    if (password === '') {
+    password = password.trim();
+    if (!password) {
         error = "Password is required!";
     } else if (password.length < PASSWORD_LENGTH) {
         error = "Password must be at least 6 characters!";

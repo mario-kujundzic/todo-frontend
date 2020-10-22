@@ -10,16 +10,19 @@ import { getEmailErrors, getPasswordErrors} from '../../util';
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errors, setErrors] = useState({});
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [otherError, setOtherError] = useState('');
 
     const validateEmail = (newEmail) => {
         let error = getEmailErrors(newEmail);
         setEmail(newEmail);
         if (error) {
-            setErrors(oldErrs => ({...oldErrs, 'email': error}));
+            setEmailError(error);;
         } else {
-            const {email, unknown, ...newErrors} = {...errors}
-            setErrors(newErrors);
+            setEmailError('');
+            if (otherError)
+                setOtherError('');
         };
     }
 
@@ -27,18 +30,25 @@ export default function Login() {
         let error = getPasswordErrors(newPassword);
         setPassword(newPassword);
         if (error) {
-            setErrors(oldErrs => ({...oldErrs, 'password': error}));
+            setPasswordError(error);
         } else {
-            const {password, unknown, ...newErrors} = {...errors}
-            setErrors(newErrors);
+            setPasswordError('');
+            if (otherError)
+                setOtherError('');
         };
     }
 
     const loginAsync = async () => {
-        if (!Object.keys(errors).length) {
+        if (!emailError && !passwordError && !otherError) {
             let authErrors = await AuthService.login(email, password);
-            if (authErrors)
-                setErrors(authErrors);
+            if (authErrors) {
+                if (authErrors.email)
+                    setEmailError(authErrors.email);
+                if (authErrors.password)
+                    setPasswordError(authErrors.password);
+                if (authErrors.email)
+                    setOtherError(authErrors.other);
+            }
         }
     };
 
@@ -50,21 +60,21 @@ export default function Login() {
                     text={email}
                     onChangeText={validateEmail}
                     placeholder="Email"
-                    errorText={errors.email}
+                    errorText={emailError}
                     keyboardType="email-address"
                     />
                 <StyledTextField 
                     text={password}
                     setText={validatePassword}
                     placeholder="Password"
-                    errorText={errors.password}
+                    errorText={passwordError}
                     secureTextEntry
                     />
                 <StyledButton 
                     onPress={loginAsync}
                     disabled={email === "" || password === ""} 
                     text='Login'/>
-                <StyledErrorText text={errors.unknown} />
+                <StyledErrorText text={otherError} />
             </View>
         </View>
     )

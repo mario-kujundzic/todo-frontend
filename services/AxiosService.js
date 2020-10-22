@@ -42,12 +42,12 @@ class AxiosService {
                     error.errorMessages = myErrors;
                 }
                 else
-                    error.errorMessages = {'unknown': "An unknown error has occured!"};
+                    error.errorMessages = {'other': "An unknown error has occured!"};
             }
             return Promise.reject(error);
         }
         catch(error) {
-            error.errorMessages = {'unknown': "An unknown error has occured!"};
+            error.errorMessages = {'other': "An unknown error has occured!"};
             return Promise.reject(error);
         }
     }
