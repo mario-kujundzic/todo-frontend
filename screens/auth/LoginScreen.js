@@ -79,7 +79,8 @@ export default function Login() {
                     />
                 <StyledButton 
                     onPress={loginAsync}
-                    disabled={email === "" || password === ""} />
+                    disabled={email === "" || password === ""} 
+                    text='Login'/>
                 <StyledErrorText text={errors.unknown} />
             </View>
         </View>
