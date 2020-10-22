@@ -5,6 +5,7 @@ import AuthService from '../../services/AuthService';
 import StyledButton from '../../components/StyledButton';
 import StyledErrorText from '../../components/StyledErrorText';
 import StyledTextField from '../../components/StyledTextField';
+import { getEmailErrors, getPasswordErrors} from '../../util';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -12,43 +13,25 @@ export default function Login() {
     const [errors, setErrors] = useState({});
 
     const validateEmail = (newEmail) => {
-        let validated = true;
-        let newError = '';
-        if (newEmail === '') {
-            validated = false;
-            newError = "Email is required!";
-        } else if (!/\S+@\S+\.\S+/.test(newEmail)) {
-            validated = false;
-            newError = "Email must be valid!";
-        }
+        let error = getEmailErrors(newEmail);
         setEmail(newEmail);
-        if (validated) {
+        if (error) {
+            setErrors(oldErrs => ({...oldErrs, 'email': error}));
+        } else {
             const {email, unknown, ...newErrors} = {...errors}
             setErrors(newErrors);
-        } else {
-            const newErrors = {...errors, 'email': newError};
-            setErrors(newErrors);
-        }
+        };
     }
 
     const validatePassword = (newPassword) => {
-        let validated = true;
-        let newError = '';
-        if (newPassword === '') {
-            validated = false;
-            newError = "Password is required!";
-        } else if (newPassword.length < 6) {
-            validated = false;
-            newError = "Password must be at least 6 characters!";
-        }
+        let error = getPasswordErrors(newPassword);
         setPassword(newPassword);
-        if (validated) {
+        if (error) {
+            setErrors(oldErrs => ({...oldErrs, 'password': error}));
+        } else {
             const {password, unknown, ...newErrors} = {...errors}
             setErrors(newErrors);
-        } else {
-            const newErrors = {...errors, 'password': newError};
-            setErrors(newErrors);
-        }
+        };
     }
 
     const loginAsync = async () => {
