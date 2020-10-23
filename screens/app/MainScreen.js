@@ -11,7 +11,7 @@ export default function MainScreen() {
 
     return (
         <View style={styles.container}>
-            <Text>Welcome, {user}!</Text>
+            <Text style={styles.welcome}>Welcome, {user}!</Text>
             <TodoView />
             <StyledButton text="Logout" onPress={AuthService.logout} />
         </View>
@@ -26,5 +26,8 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         padding: 20,
         backgroundColor: 'white'
+    },
+    welcome: {
+        fontSize: 20
     }
 });

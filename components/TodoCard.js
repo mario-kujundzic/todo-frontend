@@ -1,8 +1,20 @@
 import React from 'react';
 
 import { StyleSheet, Text, View } from "react-native";
+import deleteIcon from '../assets/delete-icon.png';
+import editIcon from '../assets/edit-icon.png';
+import StyledSmallButton from './StyledSmallButton';
 
 export default function TodoCard({todo, setSelected}) {
+
+    const editTodo = () => {
+        console.log('editing todo');
+    }
+
+    const deleteTodo = () => {
+        console.log('delet todo');
+    }
+
     return (
         <View style={styles.card}>
             <View style={styles.title}>
@@ -14,6 +26,10 @@ export default function TodoCard({todo, setSelected}) {
                 <Text style={styles.descriptionText}>
                     {todo.description}
                 </Text>
+                <View style={styles.buttonDrawer}>
+                    <StyledSmallButton onPress={editTodo} icon={editIcon} />
+                    <StyledSmallButton onPress={deleteTodo} icon={deleteIcon} />
+                </View>
             </View>
         </View>
     )
@@ -21,7 +37,6 @@ export default function TodoCard({todo, setSelected}) {
 
 const styles = StyleSheet.create({
     card: {
-        height:150,
         marginTop: 10,
         marginBottom: 10,
     },
@@ -38,7 +53,6 @@ const styles = StyleSheet.create({
         fontSize: 24
     },  
     description: {
-        flexGrow: 1,
         backgroundColor: '#89DBEC',
         flexDirection: 'row',
         borderBottomLeftRadius: 10,
@@ -46,6 +60,13 @@ const styles = StyleSheet.create({
         padding: 5
     },
     descriptionText: {
-        fontSize: 18
+        fontSize: 18,
+        flex: 4,
+        justifyContent: 'flex-start'
+    },
+    buttonDrawer: {
+        flex: 2,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
     }
 })
