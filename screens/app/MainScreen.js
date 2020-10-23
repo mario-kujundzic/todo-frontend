@@ -3,8 +3,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../state/userSlice';
 import AuthService from '../../services/AuthService';
-import StyledButton from '../../components/StyledButton';
-import TodoView from '../../components/TodoView';
+import StyledButton from '../../components/form/StyledButton';
+import MyTodos from '../../components/todos/MyTodos';
 
 export default function MainScreen() {
     const user = useSelector(selectUser);
@@ -12,7 +12,7 @@ export default function MainScreen() {
     return (
         <View style={styles.container}>
             <Text style={styles.welcome}>Welcome, {user}!</Text>
-            <TodoView />
+            <MyTodos />
             <StyledButton text="Logout" onPress={AuthService.logout} />
         </View>
     )

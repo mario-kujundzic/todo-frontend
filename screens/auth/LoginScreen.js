@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
 import imageLogo from '../../assets/logo.png';
 import AuthService from '../../services/AuthService';
-import StyledButton from '../../components/StyledButton';
-import StyledErrorText from '../../components/StyledErrorText';
-import StyledTextField from '../../components/StyledTextField';
+import StyledButton from '../../components/form/StyledButton';
+import StyledErrorText from '../../components/form/StyledErrorText';
+import StyledTextField from '../../components/form/StyledTextField';
 import { getEmailErrors, getPasswordErrors} from '../../util';
 
 export default function Login() {

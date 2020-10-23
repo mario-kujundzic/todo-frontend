@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
-import TodoService from '../services/TodoService';
+import TodoService from '../../services/TodoService';
 import TodoCard from './TodoCard';
-import { selectTodos } from '../state/todoSlice';
+import { selectTodos } from '../../state/todoSlice';
 import { StyleSheet, Text } from 'react-native';
 
-export default function TodoView() {
+export default function MyTodos() {
     const todos = useSelector(selectTodos);
     const [selectedTodo, setSelectedTodo] = useState(null);
     const renderTodo = (todo) => <TodoCard todo={todo} 
