@@ -3,16 +3,24 @@ import React from 'react';
 import { StyleSheet, Text, View } from "react-native";
 import deleteIcon from '../assets/delete-icon.png';
 import editIcon from '../assets/edit-icon.png';
+import TodoService from '../services/TodoService';
+import ConfirmDialog from './ConfirmDialog';
 import StyledSmallButton from './StyledSmallButton';
 
 export default function TodoCard({todo, setSelected}) {
 
     const editTodo = () => {
-        console.log('editing todo');
     }
 
-    const deleteTodo = () => {
-        console.log('delet todo');
+    const deleteTodo = async () => {
+        const confirmDelete = () => {
+            TodoService.deleteTodo(todo.id);
+        }
+
+        ConfirmDialog('Delete todo', 
+                    'Are you sure you want to delete the selected todo?',
+                    confirmDelete,
+                    () => {});
     }
 
     return (

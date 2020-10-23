@@ -11,11 +11,17 @@ export const todoSlice = createSlice({
         },
         reset: state => {
             state.value = [];
+        },
+        removeTodo: (state, action) => {
+            const newState = state.value.filter(todo => {
+                return todo.id != action.payload;
+            })
+            state.value = newState;
         }
     }
 })
 
-export const { set, reset } = todoSlice.actions;
+export const { set, reset, removeTodo } = todoSlice.actions;
 
 export const selectTodos = state => state.todos.value;
 
