@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function StyledButton({onPress, disabled = false, text}) {
+export default function StyledButton({onPress, text, disabled = false}) {
     return (
         <TouchableOpacity 
             onPress={onPress}

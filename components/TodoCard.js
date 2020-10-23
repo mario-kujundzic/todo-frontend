@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { StyleSheet, Text, View } from "react-native";
-import { TextInput } from 'react-native-gesture-handler';
 
-export default function TodoCard({todo}) {
+export default function TodoCard({todo, setSelected}) {
     return (
         <View style={styles.card}>
             <View style={styles.title}>

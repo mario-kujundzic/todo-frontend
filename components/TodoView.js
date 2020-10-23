@@ -1,23 +1,30 @@
-import React, { useEffect } from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
+import { FlatList } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 import TodoService from '../services/TodoService';
 import TodoCard from './TodoCard';
 import { selectTodos } from '../state/todoSlice';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 export default function TodoView() {
     const todos = useSelector(selectTodos);
+    const [selectedTodo, setSelectedTodo] = useState(null);
+    const renderTodo = (todo) => <TodoCard todo={todo} 
+                        setSelected={setSelectedTodo} />;
+
+    const empty = (<Text>No todos currently added!</Text>);
 
     useEffect(() => {
         TodoService.getMyTodos();
     }, [])
 
     return (
-        <ScrollView style={styles.container}>
-            {todos.map((todo, index) => 
-                ( <TodoCard todo={todo} key={index}/> ) )}
-        </ScrollView>
+        <FlatList data={todos} 
+            renderItem={({item}) => renderTodo(item)} 
+            keyExtractor={item => item.id.toString()} 
+            ListEmptyComponent={empty} 
+            extraData={selectedTodo} />
+        
     )
 }
 
