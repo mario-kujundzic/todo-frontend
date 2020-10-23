@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import StyledErrorText from "../form/StyledErrorText";
 
-export default function StyledTextField({text, setText, placeholder, errorText, ...props}) {
+export default function StyledTextField({text, setText, placeholder, errorText = "", ...props}) {
     return (
         <>
             <TextInput

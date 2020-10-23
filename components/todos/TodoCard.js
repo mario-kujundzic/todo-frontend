@@ -1,13 +1,11 @@
 import React from 'react';
 
 import { StyleSheet, Text, View } from "react-native";
-import deleteIcon from '../../assets/delete-icon.png';
-import editIcon from '../../assets/edit-icon.png';
 import TodoService from '../../services/TodoService';
 import ConfirmDialog from '../form/ConfirmDialog';
 import StyledSmallButton from '../form/StyledSmallButton';
 
-export default function TodoCard({todo, setSelected}) {
+export default function TodoCard({todo, setSelected, edit}) {
 
     const editTodo = () => {
     }
@@ -35,8 +33,8 @@ export default function TodoCard({todo, setSelected}) {
                     {todo.description}
                 </Text>
                 <View style={styles.buttonDrawer}>
-                    <StyledSmallButton onPress={editTodo} icon={editIcon} />
-                    <StyledSmallButton onPress={deleteTodo} icon={deleteIcon} />
+                    <StyledSmallButton onPress={editTodo} icon="edit" size={40} />
+                    <StyledSmallButton onPress={deleteTodo} icon="delete" size={40} />
                 </View>
             </View>
         </View>
