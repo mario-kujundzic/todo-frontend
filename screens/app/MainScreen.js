@@ -6,13 +6,17 @@ import AuthService from '../../services/AuthService';
 import StyledButton from '../../components/form/StyledButton';
 import MyTodos from '../../components/todos/MyTodos';
 
-export default function MainScreen() {
+export default function MainScreen({navigation}) {
     const user = useSelector(selectUser);
+
+    const editTodo = (id) => {
+        navigation.navigate('EditTodo', {todo: id});
+    }
 
     return (
         <View style={styles.container}>
             <Text style={styles.welcome}>Welcome, {user}!</Text>
-            <MyTodos />
+            <MyTodos edit={editTodo} />
             <StyledButton text="Logout" onPress={AuthService.logout} />
         </View>
     )

@@ -1,5 +1,5 @@
 import axios from './AxiosService';
-import { set, removeTodo } from '../state/todoSlice';
+import { set, removeTodo, updateTodo } from '../state/todoSlice';
 import store from '../state/store';
 import { Alert } from 'react-native';
 
@@ -16,7 +16,16 @@ class TodoService {
         } catch (e) {
             Alert.alert('Deleting failed!');
         }
+    }
 
+    updateTodo = async (todo) => {
+        try {
+            let res = await axios.client(`todos/${todo.id}`, 
+                            {method: 'PUT', data: {...todo}});
+            store.dispatch(updateTodo(res.data));
+        } catch (e) {
+            return err.errorMessages;
+        }
     }
 }
 

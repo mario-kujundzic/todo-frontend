@@ -28,4 +28,13 @@ const getPasswordErrors = (password) => {
     return error;
 }
 
-export {PASSWORD_LENGTH, emailIsValid, getEmailErrors, getPasswordErrors};
+const getTitleErrors = (title) => {
+    let error = null;
+    title = title.trim();
+    if (!title) {
+        error = "Title is required!";
+    }
+    return error;
+}
+
+export {PASSWORD_LENGTH, emailIsValid, getEmailErrors, getPasswordErrors, getTitleErrors};

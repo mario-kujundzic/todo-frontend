@@ -6,11 +6,12 @@ import TodoCard from './TodoCard';
 import { selectTodos } from '../../state/todoSlice';
 import { StyleSheet, Text } from 'react-native';
 
-export default function MyTodos() {
+export default function MyTodos({edit}) {
     const todos = useSelector(selectTodos);
     const [selectedTodo, setSelectedTodo] = useState(null);
     const renderTodo = (todo) => <TodoCard todo={todo} 
-                        setSelected={setSelectedTodo} />;
+                        setSelected={setSelectedTodo} 
+                        edit={edit} />;
 
     const empty = (<Text>No todos currently added!</Text>);
 

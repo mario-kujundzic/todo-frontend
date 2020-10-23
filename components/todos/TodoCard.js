@@ -1,13 +1,24 @@
 import React from 'react';
 
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import TodoService from '../../services/TodoService';
 import ConfirmDialog from '../form/ConfirmDialog';
+import StyledCheckBox from '../form/StyledCheckBox';
 import StyledSmallButton from '../form/StyledSmallButton';
 
-export default function TodoCard({todo, setSelected, edit}) {
+export default function TodoCard({todo, edit, setSelected}) {
 
-    const editTodo = () => {
+    const editTodo = () => {        
+        edit(todo.id);
+    }
+    
+    const toggleFinished = async (val) => {
+        const newTodo = {...todo, completed: val};
+        let error = await TodoService.updateTodo(newTodo);
+        if (error)
+            Alert.alert("Something went wrong!");
+        else 
+            setSelected(todo.id.toString())
     }
 
     const deleteTodo = async () => {
@@ -33,6 +44,7 @@ export default function TodoCard({todo, setSelected, edit}) {
                     {todo.description}
                 </Text>
                 <View style={styles.buttonDrawer}>
+                    <StyledCheckBox value={todo.completed} onValueChange={toggleFinished} />
                     <StyledSmallButton onPress={editTodo} icon="edit" size={40} />
                     <StyledSmallButton onPress={deleteTodo} icon="delete" size={40} />
                 </View>
@@ -71,7 +83,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     buttonDrawer: {
-        flex: 2,
+        flex: 3,
         flexDirection: 'row',
         justifyContent: 'flex-end',
     }
