@@ -30,10 +30,12 @@ export default function ViewTodo({ todo, finishAction }) {
         if (!titleError && !descriptionError) {
             let errors = await finishAction({id: todo.id, title, description, priority, completed});
             if (errors) {
-                if (errors.title)
+                if (errors.title) {
                     setTitleError(error.title);
-                if (errors.description)
+                }
+                if (errors.description) {
                     setDescriptionError(error.description);
+                }
             }
         }
     }

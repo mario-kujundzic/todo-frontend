@@ -15,10 +15,11 @@ export default function TodoCard({todo, edit, setSelected}) {
     const toggleFinished = async (val) => {
         const newTodo = {...todo, completed: val};
         let error = await TodoService.updateTodo(newTodo);
-        if (error)
+        if (error) {
             Alert.alert("Something went wrong!");
-        else 
+        } else  {
             setSelected(todo.id.toString())
+        }
     }
 
     const deleteTodo = async () => {

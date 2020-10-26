@@ -21,8 +21,9 @@ export default function Login() {
             setEmailError(error);;
         } else {
             setEmailError('');
-            if (otherError)
+            if (otherError) {
                 setOtherError('');
+            }
         };
     }
 
@@ -33,8 +34,9 @@ export default function Login() {
             setPasswordError(error);
         } else {
             setPasswordError('');
-            if (otherError)
+            if (otherError) {
                 setOtherError('');
+            }
         };
     }
 
@@ -42,12 +44,15 @@ export default function Login() {
         if (!emailError && !passwordError && !otherError) {
             let authErrors = await AuthService.login(email, password);
             if (authErrors) {
-                if (authErrors.email)
+                if (authErrors.email) {
                     setEmailError(authErrors.email);
-                if (authErrors.password)
+                }
+                if (authErrors.password) {
                     setPasswordError(authErrors.password);
-                if (authErrors.email)
+                }
+                if (authErrors.email) {
                     setOtherError(authErrors.other);
+                }
             }
         }
     };
