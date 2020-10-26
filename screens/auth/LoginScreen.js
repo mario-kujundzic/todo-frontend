@@ -14,6 +14,8 @@ export default function Login() {
     const [passwordError, setPasswordError] = useState('');
     const [otherError, setOtherError] = useState('');
 
+    const [loading, setLoading] = useState(false);
+
     const validateEmail = (newEmail) => {
         let error = getEmailErrors(newEmail);
         setEmail(newEmail);
@@ -41,7 +43,8 @@ export default function Login() {
     }
 
     const loginAsync = async () => {
-        if (!emailError && !passwordError && !otherError) {
+        if (!emailError && !passwordError && !otherError && !loading) {
+            setLoading(true);
             let authErrors = await AuthService.login(email, password);
             if (authErrors) {
                 if (authErrors.email) {
@@ -53,6 +56,7 @@ export default function Login() {
                 if (authErrors.email) {
                     setOtherError(authErrors.other);
                 }
+                setLoading(false);
             }
         }
     };
@@ -78,8 +82,9 @@ export default function Login() {
                     />
                 <StyledButton 
                     onPress={loginAsync}
-                    disabled={!email || !password} 
-                    text='Login'/>
+                    disabled={!email || !password || loading} 
+                    text='Login'
+                    loading={loading} />
                 <StyledErrorText text={otherError} />
             </View>
         </View>

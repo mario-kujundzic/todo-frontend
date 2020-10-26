@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function StyledButton({onPress, text, disabled = false}) {
+export default function StyledButton({onPress, text, loading, disabled = false}) {
     return (
         <TouchableOpacity 
             onPress={onPress}
@@ -11,7 +11,11 @@ export default function StyledButton({onPress, text, disabled = false}) {
             : styles.button}
             disabled={disabled}
             >
-                <Text style={styles.buttonText}>{text}</Text>
+                {loading ? (
+                    <ActivityIndicator />
+                ) : (
+                    <Text style={styles.buttonText}>{text}</Text>
+                )}
         </TouchableOpacity>
         )
 }

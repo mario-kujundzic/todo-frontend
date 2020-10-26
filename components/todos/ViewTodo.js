@@ -16,6 +16,8 @@ export default function ViewTodo({ todo, finishAction }) {
     const [titleError, setTitleError] = useState("");
     const [descriptionError, setDescriptionError] = useState("");
 
+    const [loading, setLoading] = useState(false);
+
     const validateTitle = (newTitle) => {
         let error = getTitleErrors(newTitle);
         setTitle(newTitle);
@@ -27,7 +29,8 @@ export default function ViewTodo({ todo, finishAction }) {
     }
 
     const saveChanges = async () => {
-        if (!titleError && !descriptionError) {
+        if (!titleError && !descriptionError && !loading) {
+            setLoading(true);
             let errors = await finishAction({id: todo.id, title, description, priority, completed});
             if (errors) {
                 if (errors.title) {
@@ -36,6 +39,7 @@ export default function ViewTodo({ todo, finishAction }) {
                 if (errors.description) {
                     setDescriptionError(error.description);
                 }
+                setLoading(false);
             }
         }
     }
@@ -78,7 +82,8 @@ export default function ViewTodo({ todo, finishAction }) {
                 <StyledButton
                     onPress={saveChanges}
                     text="Save changes"
-                    disabled={!title} />
+                    disabled={!title || loading} 
+                    loading={loading} />
             </View>
         </View>
     )
