@@ -1,23 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import ViewTodo from '../../components/todos/ViewTodo';
-import { useSelector } from 'react-redux';
-import { selectTodo } from '../../state/todoSlice';
 import TodoService from '../../services/TodoService';
 
-export default function EditTodo({route, navigation}) {
-    const todo = useSelector((state) => selectTodo(state, route.params?.todo))
-    
-    const finishEdit = async (todo) => {
-        await TodoService.updateTodo(todo);
+export default function AddTodo({navigation}) {
+
+    const finishAdd = async (todo) => {
+        await TodoService.addTodo(todo);
         navigation.goBack();
     }
+
     return (
         <View style={styles.container}>  
-            <ViewTodo finishAction={finishEdit} todo={todo} />
+            <ViewTodo finishAction={finishAdd} />
         </View>
     )
-};
+}
 
 const styles = StyleSheet.create({
     container: {

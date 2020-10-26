@@ -12,6 +12,10 @@ export const todoSlice = createSlice({
         reset: state => {
             state.value = [];
         },
+        addTodo: (state, action) => {
+            const newState = [...state.value, action.payload];
+            state.value = newState;
+        },
         removeTodo: (state, action) => {
             const newState = state.value.filter(todo => {
                 return todo.id != action.payload;
@@ -33,7 +37,7 @@ export const todoSlice = createSlice({
     }
 })
 
-export const { set, reset, removeTodo, updateTodo } = todoSlice.actions;
+export const { set, reset, removeTodo, updateTodo, addTodo } = todoSlice.actions;
 
 export const selectTodos = state => state.todos.value;
 

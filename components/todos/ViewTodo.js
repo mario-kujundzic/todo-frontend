@@ -7,11 +7,11 @@ import StyledCheckBox from '../form/StyledCheckBox';
 import StyledRadioGroup from '../form/StyledRadioGroup';
 import TodoService from '../../services/TodoService';
 
-export default function ViewTodo({ todo, finishAction }) {
-    const [title, setTitle] = useState(todo.title);
-    const [description, setDescription] = useState(todo.description);
-    const [priority, setPriority] =  useState(todo.priority);
-    const [completed, setCompleted] = useState(todo.completed);
+export default function ViewTodo({ finishAction, todo= {} }) {
+    const [title, setTitle] = useState(todo.title || "");
+    const [description, setDescription] = useState(todo.description || "");
+    const [priority, setPriority] =  useState(todo.priority || 0);
+    const [completed, setCompleted] = useState(todo.completed || false);
 
     const [titleError, setTitleError] = useState("");
     const [descriptionError, setDescriptionError] = useState("");
@@ -31,7 +31,11 @@ export default function ViewTodo({ todo, finishAction }) {
     const saveChanges = async () => {
         if (!titleError && !descriptionError && !loading) {
             setLoading(true);
-            let errors = await finishAction({id: todo.id, title, description, priority, completed});
+            let newTodo = { title, description, priority, completed };
+            if (todo.id) {
+                newTodo.id = todo.id;
+            }
+            let errors = await finishAction(newTodo);
             if (errors) {
                 if (errors.title) {
                     setTitleError(error.title);

@@ -13,9 +13,14 @@ export default function MainScreen({navigation}) {
         navigation.navigate('EditTodo', {todo: id});
     }
 
+    const navigateAddTodo = () => {
+        navigation.navigate('AddTodo');
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.welcome}>Welcome, {user}!</Text>
+            <StyledButton text="Add todo" onPress={navigateAddTodo} />
             <MyTodos navigateEditScreen={navigateEditTodo} />
             <StyledButton text="Logout" onPress={AuthService.logout} />
         </View>
@@ -32,6 +37,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     welcome: {
-        fontSize: 20
+        fontSize: 30,
+        marginBottom: 10    
     }
 });
