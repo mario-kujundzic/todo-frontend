@@ -6,15 +6,15 @@ import ConfirmDialog from '../form/ConfirmDialog';
 import StyledCheckBox from '../form/StyledCheckBox';
 import StyledSmallButton from '../form/StyledSmallButton';
 
-export default function TodoCard({todo, edit, setSelected}) {
+export default function TodoCard({todo, navigateEditScreen, setSelected}) {
 
     const editTodo = () => {        
-        edit(todo.id);
+        navigateEditScreen(todo.id);
     }
     
     const toggleFinished = async (val) => {
-        const newTodo = {...todo, completed: val};
-        let error = await TodoService.updateTodo(newTodo);
+        const newTodo = {id: todo.id, completed: val};
+        let error = await TodoService.toggleStatus(newTodo);
         if (error) {
             Alert.alert("Something went wrong!");
         } else  {

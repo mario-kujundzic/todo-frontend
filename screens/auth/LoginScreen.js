@@ -67,6 +67,7 @@ export default function Login() {
                     placeholder="Email"
                     errorText={emailError}
                     keyboardType="email-address"
+                    autoCapitalize="none"
                     />
                 <StyledTextField 
                     text={password}

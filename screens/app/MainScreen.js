@@ -9,14 +9,14 @@ import MyTodos from '../../components/todos/MyTodos';
 export default function MainScreen({navigation}) {
     const user = useSelector(selectUser);
 
-    const editTodo = (id) => {
+    const navigateEditTodo = (id) => {
         navigation.navigate('EditTodo', {todo: id});
     }
 
     return (
         <View style={styles.container}>
             <Text style={styles.welcome}>Welcome, {user}!</Text>
-            <MyTodos edit={editTodo} />
+            <MyTodos navigateEditScreen={navigateEditTodo} />
             <StyledButton text="Logout" onPress={AuthService.logout} />
         </View>
     )

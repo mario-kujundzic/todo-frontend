@@ -6,12 +6,12 @@ import TodoCard from './TodoCard';
 import { selectTodos } from '../../state/todoSlice';
 import { StyleSheet, Text } from 'react-native';
 
-export default function MyTodos({edit}) {
+export default function MyTodos({navigateEditScreen}) {
     const todos = useSelector(selectTodos);
     const [selectedTodo, setSelectedTodo] = useState(null);
     const renderTodo = (todo) => <TodoCard todo={todo} 
                         setSelected={setSelectedTodo} 
-                        edit={edit} />;
+                        navigateEditScreen={navigateEditScreen} />;
 
     const empty = (<Text>No todos currently added!</Text>);
 

@@ -24,11 +24,13 @@ const App = () => {
 
     const startLoadingAsync = async () => {
         let token = await AsyncStorage.getItem('token');
-        if (token)
+        if (token) {
             axios.attachHeaders({'Authorization': token});
+        }
         let user = await AsyncStorage.getItem('user');
-        if (user)
+        if (user) {
             dispatch(set(user));
+        }
         return Promise.resolve();
     };
 

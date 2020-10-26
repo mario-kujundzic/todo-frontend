@@ -23,7 +23,18 @@ class TodoService {
             let res = await axios.client(`todos/${todo.id}`, 
                             {method: 'PUT', data: {...todo}});
             store.dispatch(updateTodo(res.data));
-        } catch (e) {
+        } catch (err) {
+            return err.errorMessages;
+        }
+    }
+
+    toggleStatus = async (todo) => {
+        try {
+            let res = await axios.client(`todos/${todo.id}/complete`, 
+                            {method: 'PUT', data: {...todo}});
+            store.dispatch(updateTodo(res.data));
+        } catch (err) {
+            console.log(err);
             return err.errorMessages;
         }
     }
