@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import imageLogo from '../../assets/logo.png';
 import AuthService from '../../services/AuthService';
 import StyledButton from '../../components/form/StyledButton';
