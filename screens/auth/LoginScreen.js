@@ -7,7 +7,7 @@ import StyledErrorText from '../../components/form/StyledErrorText';
 import StyledTextField from '../../components/form/StyledTextField';
 import { getEmailErrors, getPasswordErrors} from '../../util';
 
-export default function Login() {
+export default function Login({navigation}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
@@ -61,6 +61,10 @@ export default function Login() {
         }
     };
 
+    const navigateRegisterPage = () => {
+        navigation.navigate('Register');
+    }
+
     return (
         <View style={styles.container}>
             <Image source={imageLogo} style={styles.logo} />
@@ -86,6 +90,9 @@ export default function Login() {
                     text='Login'
                     loading={loading} />
                 <StyledErrorText text={otherError} />
+                <StyledButton 
+                    onPress={navigateRegisterPage}
+                    text='Register' />
             </View>
         </View>
     )

@@ -18,6 +18,21 @@ class AuthService {
             return err.errorMessages;
         }
     }
+
+    register = async (user) => {
+        try {
+            let msg = await axios.client('auth/register', {method: 'POST', data: {...user}})
+            const header = 'Bearer ' + msg.data.access_token;
+            axios.attachHeaders({'Authorization': header});
+            await AsyncStorage.setItem('token', header);
+            await AsyncStorage.setItem('user', msg.data.user);
+            store.dispatch(set(msg.data.user));
+        }
+        catch (err) {
+            return err.errorMessages;
+        }
+
+    }
     
     logout = async () => {
         await AsyncStorage.removeItem('token');
